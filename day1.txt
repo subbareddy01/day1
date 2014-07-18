@@ -1,0 +1,93 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+   <style>
+    #top, #bottom, #left, #right {
+	background-color:green;
+	position: fixed;
+	}
+	#left, #right {
+		top: 0; bottom: 0;
+		width: 15px;
+		}
+		#left { left: 0; }
+		#right { right: 0; }
+		
+	#top, #bottom {
+		left: 0; right: 0;
+		height: 15px;
+		}
+		#top { top: 0; }
+		#bottom { bottom: 0; }
+		#mycanvas{
+	     width: 700px;
+         height: 700px;
+         border: 1px solid black;
+		 display: flex;
+         flex-flow: row wrap;
+         align-content: space-around;
+		}
+ </style>
+  </head>
+  <body>
+  	<center>
+<div id="left"></div>
+<div id="right"></div>
+<div id="top"></div>
+<div id="bottom"></div></center>
+<center>
+    <canvas id="myCanvas" width="700" height="700" ></canvas>
+        <script>
+      var canvas = document.getElementById('myCanvas');
+      var context = canvas.getContext('2d');	  
+	 function clearCanvas(canvas){
+			var context = canvas.getContext('2d');
+			context.clearRect(18, 160, 518, 700);
+	  }
+	  function drawRectangle(canvas, type, a, b, c, d, e) {
+	  		var context = canvas.getContext('2d');
+			context.clearRect(18, 160, 518, 700);
+			context.beginPath();
+			if (type == "rect") {
+				context.rect(a, b, c, d);
+			} else if (type == "line") {
+				context.moveTo(a,b);
+				context.lineTo(c,d);
+			} else if (type == "arc") {
+				context.arc(a, b, c, d, e);
+			}
+			context.stroke();
+	  }
+     function getMousePos(canvas, evt) {
+        var rect = canvas.getBoundingClientRect();
+        return {
+          x: evt.clientX - rect.left,
+          y: evt.clientY - rect.top
+        };
+      }
+	  context.rect(20, 20, 150, 100);
+	  context.stroke();
+	  context.beginPath();
+	  context.arc(270, 70, 55, 0, 2 * Math.PI);
+	  context.stroke();
+	  context.beginPath();
+	  context.moveTo(400, 70);
+	  context.lineTo(450, 70);
+	  context.stroke();
+      canvas.addEventListener('click', function(evt) {	
+        var mousePos = getMousePos(canvas, evt);
+		var message = 'Mouse position: ' + mousePos.x + ',' + mousePos.y;
+		if (mousePos.x > 400 && mousePos.x < 450 && mousePos.y > 68 && mousePos.y < 71) {  
+			drawRectangle(canvas, 'line', 20, 175, 70, 175);
+		} else if (mousePos.x > 20 && mousePos.x < 170 && mousePos.y > 20 && mousePos.y < 120) {
+		    drawRectangle(canvas, 'rect', 20, 175, 155, 100);
+		} else if (mousePos.x > 214 && mousePos.x < 326 && mousePos.y > 12 && mousePos.y < 125) {
+		    drawRectangle(canvas, 'arc', 75, 230, 55, 0, 2 * Math.PI);
+		} else {
+			clearCanvas(canvas);
+		}}, false); 
+    </script>
+</center>
+  </body>
+</html>
+      
